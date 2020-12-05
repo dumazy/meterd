@@ -1,3 +1,4 @@
+import 'package:app/bottom_bar.dart';
 import 'package:app/dependencies.dart';
 import 'package:app/last_reading.dart';
 import 'package:app/previous_readings.dart';
@@ -5,6 +6,8 @@ import 'package:app/domain/reading_controller.dart';
 import 'package:app/reading_input.dart';
 import 'package:app/settings/settings_screen.dart';
 import 'package:flutter/material.dart';
+
+import 'graph/reading_graph.dart';
 
 void main() async {
   await initDependencies();
@@ -25,30 +28,46 @@ class MyApp extends StatelessWidget {
   }
 }
 
+const bottom_bar_height = 80.0;
+
 class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Meter readings"),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.settings),
-            onPressed: () => _openSettings(context),
-          ),
-        ],
-      ),
-      body: Column(
+      body: Stack(
         children: [
-          LastReading(),
-          Expanded(
-            child: PreviousReadings(),
+          CustomScrollView(
+            physics: BouncingScrollPhysics(),
+            slivers: [
+              SliverAppBar(
+                actions: [
+                  IconButton(
+                    icon: Icon(Icons.settings),
+                    onPressed: () => _openSettings(context),
+                  ),
+                ],
+                pinned: true,
+                floating: true,
+                expandedHeight: 380,
+                stretch: true,
+                flexibleSpace: FlexibleSpaceBar(
+                  stretchModes: [
+                    StretchMode.blurBackground,
+                    StretchMode.fadeTitle,
+                  ],
+                  background: SafeArea(child: ReadingGraph()),
+                ),
+              ),
+              SliverPreviousReadings(),
+            ],
+          ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: BottomBar(
+              onPressed: () => _showAddDialog(context),
+            ),
           ),
         ],
-      ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
-        onPressed: () => _showAddDialog(context),
       ),
     );
   }

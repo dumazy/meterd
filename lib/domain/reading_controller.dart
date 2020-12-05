@@ -9,8 +9,7 @@ class ReadingController {
 
   Stream<List<Reading>> _readings;
   Stream<Reading> get lastReading => _readings?.map((list) => list.first);
-  Stream<List<Reading>> get previousReadings =>
-      _readings?.map((list) => list.skip(1).toList());
+  Stream<List<Reading>> get previousReadings => _readings;
 
   Future<void> init() async {
     _readings = _repository.getReadings();

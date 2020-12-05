@@ -79,15 +79,28 @@ class _AddReadingBottomSheetState extends State<AddReadingBottomSheet> {
               SizedBox(
                 height: 10.0,
               ),
-              FlatButton(
-                onPressed: _addReading,
-                child: Text("Add"),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  FlatButton(
+                    onPressed: () => _closeSheet(context),
+                    child: Text("Cancel"),
+                  ),
+                  FlatButton(
+                    onPressed: _addReading,
+                    child: Text("Add"),
+                  ),
+                ],
               ),
             ],
           ),
         );
       },
     );
+  }
+
+  void _closeSheet(BuildContext context) {
+    Navigator.of(context).pop();
   }
 
   void _addReading() {
