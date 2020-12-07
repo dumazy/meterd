@@ -40,12 +40,6 @@ class HomeScreen extends StatelessWidget {
             physics: BouncingScrollPhysics(),
             slivers: [
               SliverAppBar(
-                actions: [
-                  IconButton(
-                    icon: Icon(Icons.settings),
-                    onPressed: () => _openSettings(context),
-                  ),
-                ],
                 pinned: true,
                 floating: true,
                 expandedHeight: 380,
@@ -70,10 +64,6 @@ class HomeScreen extends StatelessWidget {
         ],
       ),
     );
-  }
-
-  void _openSettings(BuildContext context) {
-    Navigator.of(context).push(SettingsScreen.route());
   }
 
   void _showAddDialog(BuildContext context) async {

@@ -1,4 +1,5 @@
 import 'package:app/main.dart';
+import 'package:app/settings/settings_screen.dart';
 import 'package:flutter/material.dart';
 
 class BottomBar extends StatelessWidget {
@@ -10,24 +11,47 @@ class BottomBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: bottom_bar_height,
-      padding: const EdgeInsets.symmetric(horizontal: 50.0),
-      child: ClipPath(
-        clipper: _ButtonClipper(),
-        child: Container(
-          width: double.infinity,
-          color: Colors.lightBlue,
-          padding: const EdgeInsets.all(10.0),
-          child: SafeArea(
-            child: FloatingActionButton(
-              backgroundColor: Colors.white,
-              child: Icon(
-                Icons.add,
-                color: Colors.blue,
+      child: Stack(
+        children: [
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Spacer(),
+              Expanded(
+                flex: 2,
+                child: ClipPath(
+                  clipper: _ButtonClipper(),
+                  child: Container(
+                    height: double.infinity,
+                    color: Colors.lightBlue,
+                    padding: const EdgeInsets.all(10.0),
+                    child: RaisedButton(
+                      shape: CircleBorder(),
+                      color: Colors.white,
+                      child: Icon(
+                        Icons.add,
+                        color: Colors.blue,
+                      ),
+                      onPressed: onPressed,
+                    ),
+                  ),
+                ),
               ),
-              onPressed: onPressed,
-            ),
+              Spacer(),
+            ],
           ),
-        ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Spacer(),
+              Spacer(),
+              Flexible(
+                child: _SettingsButton(),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }
@@ -49,5 +73,30 @@ class _ButtonClipper extends CustomClipper<Path> {
   @override
   bool shouldReclip(covariant CustomClipper<Path> oldClipper) {
     return true;
+  }
+}
+
+class _SettingsButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: double.infinity,
+      child: Center(
+        child: RaisedButton(
+          padding: EdgeInsets.all(20.0),
+          color: Colors.lightBlue,
+          shape: CircleBorder(),
+          child: Icon(
+            Icons.settings,
+            color: Colors.white,
+          ),
+          onPressed: () => _goToSettings(context),
+        ),
+      ),
+    );
+  }
+
+  void _goToSettings(BuildContext context) {
+    Navigator.of(context).push(SettingsScreen.route());
   }
 }
